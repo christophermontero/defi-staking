@@ -1,7 +1,7 @@
 pragma solidity '0.5.17';
 
-import './Reward';
-import './Tether';
+import "./Reward.sol";
+import "./Tether.sol";
 
 contract DeBank {
     address public owner;

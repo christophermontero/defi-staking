@@ -3,7 +3,7 @@ pragma solidity '0.5.17';
 contract Reward {
     string public name = "Reward token";
     string public symbol = "RWD";
-    uint256 public totalSupply = 1000000000000000000;
+    uint256 public totalSupply = 1000000000000000000000000; // 1 million USDT
     uint8 public decimals = 18;
 
     event Transfer(
