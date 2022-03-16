@@ -46,4 +46,16 @@ contract('DeBank', ([owner, customer]) => {
       assert.equal(symbol, 'RWD');
     });
   });
+
+  describe('Decentral bank contract deployment', async () => {
+    it('matches names successfully', async () => {
+      const name = await debank.name();
+      assert.equal(name, 'DeBank');
+    });
+
+    it('contract has tokens', async () => {
+      const balance = await reward.balanceOf(debank.address);
+      assert.equal(balance, convert('1000000'));
+    });
+  });
 });
