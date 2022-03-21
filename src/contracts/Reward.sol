@@ -5,7 +5,9 @@ contract Reward {
     string public symbol = "RWD";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million USDT
     uint8 public decimals = 18;
-
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+    
     event Transfer(
         address indexed _from,
         address indexed _to,
@@ -17,9 +19,6 @@ contract Reward {
         address indexed _spender,
         uint _amount
     );
-
-    mapping(address => uint256) public balanceOf;
-    mapping(address => mapping(address => uint256)) public allowance;
 
     constructor() public {
         balanceOf[msg.sender] = totalSupply;

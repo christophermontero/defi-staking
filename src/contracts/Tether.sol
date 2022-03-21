@@ -5,6 +5,8 @@ contract Tether {
     string public symbol = "USDT";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million USDT
     uint8 public decimals = 18;
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
 
     event Transfer(
         address indexed _from,
@@ -17,9 +19,6 @@ contract Tether {
         address indexed _spender,
         uint _amount
     );
-
-    mapping(address => uint256) public balanceOf;
-    mapping(address => mapping(address => uint256)) public allowance;
 
     constructor() public {
         balanceOf[msg.sender] = totalSupply;
@@ -44,7 +43,7 @@ contract Tether {
         require(allowance[_from][msg.sender] >= _amount);
         balanceOf[_from] -= _amount;
         balanceOf[_to] += _amount;
-        allowance[msg.sender][_from] -= _amount;
+        allowance[_from][msg.sender] -= _amount;
         emit Transfer(_from, _to, _amount);
         return true;
     }

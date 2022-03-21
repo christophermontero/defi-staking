@@ -17,7 +17,9 @@ contract('DeBank', ([owner, customer]) => {
     debank = await DeBank.new(reward.address, tether.address);
 
     // Transfer all tokens to DeBank
-    await reward.transfer(debank.address, convertToWei('1000000'));
+    await reward.transfer(debank.address, convertToWei('1000000'), {
+      from: owner
+    });
 
     // Transfer 100 USDT to customer
     await tether.transfer(customer, convertToWei('100'), { from: owner });
@@ -90,7 +92,7 @@ contract('DeBank', ([owner, customer]) => {
       assert.equal(
         result.toString(),
         convertToWei('100'),
-        'DeBank wallet after staking form customer'
+        'DeBank wallet after staking from customer'
       );
 
       result = await debank.isStaking(customer);
@@ -99,6 +101,14 @@ contract('DeBank', ([owner, customer]) => {
         'true',
         'Customer staking status to be true aftes staking'
       );
+
+      // Issue tokens
+      await debank.issueTokens({ from: owner });
+
+      // Ensure only the owner can issue tokens
+      await debank
+        .issueTokens({ from: customer })
+        .should.be.rejectedWith('caller must be the owner');
     });
   });
 });
