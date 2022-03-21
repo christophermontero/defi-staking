@@ -13,11 +13,16 @@ contract DeBank {
 
     mapping(address => uint) public stakingBalances;
     mapping(address => bool) public hasStaked;
-    mapping(address => bool) public isStaked;
+    mapping(address => bool) public isStaking;
 
     constructor(Reward _reward, Tether _tether) public {
         tether = _tether;
         reward = _reward;
+    }
+
+    modifier onlyOwner {
+        require(msg.sender == owner, "caller must be the owner");
+        _;
     }
 
     function depositTokens(uint _amount) public {
@@ -26,11 +31,22 @@ contract DeBank {
         tether.transferFrom(msg.sender, address(this), _amount);
         stakingBalances[msg.sender] += _amount;
 
-        if(!hasStaked) {
+        if(!hasStaked[msg.sender]) {
             stakers.push(msg.sender);
         }
 
-        isStaked[msg.sender] = true;
+        isStaking[msg.sender] = true;
         hasStaked[msg.sender] = true;
+    }
+
+    function issueTokens() public onlyOwner {
+        for (uint i=0; i<stakers.length; i++) {
+            address recipient = stakers[i];
+            uint balance = stakingBalances[recipient] / 9; // Incentive is equal to one ninth
+
+            if (balance > 0) {
+                reward.transfer(recipient, balance);
+            }
+        }
     }
 }

@@ -7,7 +7,7 @@ const Tether = artifacts.require('Tether');
 contract('DeBank', ([owner, customer]) => {
   let tether, reward, debank;
 
-  function convert(num) {
+  function convertToWei(num) {
     return web3.utils.toWei(num, 'ether');
   }
 
@@ -17,10 +17,10 @@ contract('DeBank', ([owner, customer]) => {
     debank = await DeBank.new(reward.address, tether.address);
 
     // Transfer all tokens to DeBank
-    await reward.transfer(debank.address, convert('1000000'));
+    await reward.transfer(debank.address, convertToWei('1000000'));
 
     // Transfer 100 USDT to customer
-    await tether.transfer(customer, convert('100'), { from: owner });
+    await tether.transfer(customer, convertToWei('100'), { from: owner });
   });
 
   describe('Tether contract deployment', async () => {
@@ -55,7 +55,50 @@ contract('DeBank', ([owner, customer]) => {
 
     it('contract has tokens', async () => {
       const balance = await reward.balanceOf(debank.address);
-      assert.equal(balance, convert('1000000'));
+      assert.equal(balance, convertToWei('1000000'));
+    });
+  });
+
+  describe('Yield farming', async () => {
+    it('rewards tokens for staking', async () => {
+      let result;
+
+      // Check investor balance
+      result = await tether.balanceOf(customer);
+      assert.equal(
+        result.toString(),
+        convertToWei('100'),
+        'Customer wallet before staking'
+      );
+
+      // Check staking for customer of 100 tokens
+      await tether.approve(debank.address, convertToWei('100'), {
+        from: customer
+      });
+      await debank.depositTokens(convertToWei('100'), { from: customer });
+
+      // Check updated balance for customer
+      result = await tether.balanceOf(customer);
+      assert.equal(
+        result.toString(),
+        convertToWei('0'),
+        'Customer wallet after staking 100 tokens'
+      );
+
+      // Check updated balance for DeBank
+      result = await tether.balanceOf(debank.address);
+      assert.equal(
+        result.toString(),
+        convertToWei('100'),
+        'DeBank wallet after staking form customer'
+      );
+
+      result = await debank.isStaking(customer);
+      assert.equal(
+        result.toString(),
+        'true',
+        'Customer staking status to be true aftes staking'
+      );
     });
   });
 });
