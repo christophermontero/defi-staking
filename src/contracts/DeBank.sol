@@ -35,6 +35,14 @@ contract DeBank {
         hasStaked[msg.sender] = true;
     }
 
+    function unstakeTokens() public {
+        uint balance = stakingBalances[msg.sender];
+        require(stakingBalances[msg.sender] > 0, "staking balance can not be less than 0");
+        tether.transfer(msg.sender, balance);
+        stakingBalances[msg.sender] -= balance;
+        isStaking[msg.sender] = false;
+    }
+
     function issueTokens() public onlyOwner {
         for (uint i=0; i<stakers.length; i++) {
             address recipient = stakers[i];
