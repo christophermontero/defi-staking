@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import bank from '../bank.png'
+import React, { Component } from 'react';
+import bank from '../bank.png';
 
 class Navbar extends Component {
   render() {
@@ -30,8 +30,8 @@ class Navbar extends Component {
           </li>
         </ul>
       </div>
-    )
+    );
   }
 }
 
-export default Navbar
+export default Navbar;
