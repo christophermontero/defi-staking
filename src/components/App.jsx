@@ -5,6 +5,7 @@ import Web3 from 'web3';
 class App extends Component {
   async UNSAFE_componentWillMount() {
     await this.loadedWeb3();
+    await this.loadBlockchainData();
   }
 
   async loadedWeb3() {
@@ -18,10 +19,23 @@ class App extends Component {
     }
   }
 
+  async loadBlockchainData() {
+    const web3 = window.web3;
+    const account = await web3.eth.getAccounts();
+    this.setState({ account: account[0] });
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      account: '0x0'
+      account: '0x0',
+      tether: {},
+      reward: {},
+      deBank: {},
+      tetherBalance: 0,
+      rewardBalance: 0,
+      stakingBalance: 0,
+      loading: true
     };
   }
 
