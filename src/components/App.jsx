@@ -69,6 +69,8 @@ class App extends Component {
     } else {
       window.alert('Error! DeBank contract is not deployed to detect network');
     }
+
+    this.setState({ loading: false });
   }
 
   constructor(props) {
