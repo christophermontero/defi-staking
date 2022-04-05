@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Navbar from './Navbar';
 import Web3 from 'web3';
 import Tether from '../truffle-abis/Tether.json';
+import Reward from '../truffle-abis/Reward.json';
+import DeBank from '../truffle-abis/DeBank.json';
 
 class App extends Component {
   async UNSAFE_componentWillMount() {
@@ -36,9 +38,36 @@ class App extends Component {
         .balanceOf(this.state.account)
         .call();
       this.setState({ tetherBalance: tetherBalance.toString() });
-      console.log('Tether balance', tetherBalance);
     } else {
       window.alert('Error! Tether contract is not deployed to detect network');
+    }
+
+    // Load Reward contract
+    const rewardData = Reward.networks[networkId];
+
+    if (rewardData) {
+      const reward = new web3.eth.Contract(Reward.abi, rewardData.address);
+      this.setState({ reward });
+      let rewardBalance = await reward.methods
+        .balanceOf(this.state.account)
+        .call();
+      this.setState({ rewardBalance: rewardBalance.toString() });
+    } else {
+      window.alert('Error! Reward contract is not deployed to detect network');
+    }
+
+    // Load DeBank contract
+    const debankData = DeBank.networks[networkId];
+
+    if (debankData) {
+      const debank = new web3.eth.Contract(DeBank.abi, debankData.address);
+      this.setState({ debank });
+      let stakingBalance = await debank.methods
+        .stakingBalances(this.state.account)
+        .call();
+      this.setState({ stakingBalance: stakingBalance.toString() });
+    } else {
+      window.alert('Error! DeBank contract is not deployed to detect network');
     }
   }
 
