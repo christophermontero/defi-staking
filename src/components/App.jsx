@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
+import Main from './Main';
 import Web3 from 'web3';
 import Tether from '../truffle-abis/Tether.json';
 import Reward from '../truffle-abis/Reward.json';
@@ -91,6 +92,17 @@ class App extends Component {
     return (
       <div>
         <Navbar account={this.state.account} />
+        <div className="container-fluid mt-5">
+          <div className="row">
+            <main
+              role="main"
+              className="col-lg-12 ml-auto mr-auto"
+              style={{ maxWidth: '600px', minHeight: '100vm' }}
+            >
+              <Main />
+            </main>
+          </div>
+        </div>
       </div>
     );
   }
