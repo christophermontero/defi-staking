@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Navbar from './Navbar';
 import Main from './Main';
+import Loader from './Loader';
 import Web3 from 'web3';
 import Tether from '../truffle-abis/Tether.json';
 import Reward from '../truffle-abis/Reward.json';
@@ -89,17 +90,23 @@ class App extends Component {
   }
 
   render() {
+    let content;
+
+    {
+      this.state.loading ? (content = <Loader />) : (content = <Main />);
+    }
+
     return (
       <div>
         <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
-          <div className="row">
+          <div className="row content">
             <main
               role="main"
               className="col-lg-12 ml-auto mr-auto"
               style={{ maxWidth: '600px', minHeight: '100vm' }}
             >
-              <Main />
+              {content}
             </main>
           </div>
         </div>

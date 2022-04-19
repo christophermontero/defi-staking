@@ -32,8 +32,8 @@ class Main extends Component {
                 Balance:
               </span>
               <div className="input-group ml-3 mb-4">
-                <input type="text" placeholder="0" required />
-                <div className="input-grouped-open ml-2">
+                <input type="text" placeholder=" 0" required />
+                <div className="input-group-open ml-2">
                   <div className="input-group-text">
                     <img src={tether} height="35px" alt="tether logo" />
                     &nbsp;&nbsp;&nbsp;USDT
@@ -49,6 +49,9 @@ class Main extends Component {
             </div>
           </form>
           <button className="btn btn-primary btn-lg btn-block">Withdraw</button>
+          <div className="card-body text-center" style={{ color: 'blue' }}>
+            Airdrop
+          </div>
         </div>
       </div>
     );
