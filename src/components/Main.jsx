@@ -7,19 +7,25 @@ class Main extends Component {
       <div id="content" className="mt-3">
         <table className="table text-muted text-center">
           <thead>
-            <tr style={{ color: 'white' }}>
+            <tr style={{ color: 'black' }}>
               <th scope="col">Staking balance</th>
               <th scope="col">Reward balance</th>
             </tr>
           </thead>
           <tbody>
-            <tr style={{ color: 'white' }}>
-              <td>USDT</td>
-              <td>RWD</td>
+            <tr style={{ color: 'black' }}>
+              <td>
+                {window.web3.utils.fromWei(this.props.stakingBalance, 'Ether')}{' '}
+                USDT
+              </td>
+              <td>
+                {window.web3.utils.fromWei(this.props.rewardBalance, 'Ether')}{' '}
+                RWD
+              </td>
             </tr>
           </tbody>
         </table>
-        <div className="card mb-2" style={{ opacity: '0.9' }}>
+        <div className="card mb-2 p-1" style={{ opacity: '0.9' }}>
           <form className="mb-3">
             <div style={{ borderSpacing: '0 1em' }}>
               <label className="float-left" style={{ marginLeft: '15px' }}>
@@ -29,7 +35,8 @@ class Main extends Component {
                 className="float-right"
                 style={{ marginLeft: '8px', marginRight: '15px' }}
               >
-                Balance:
+                Balance:{' '}
+                {window.web3.utils.fromWei(this.props.tetherBalance, 'Ether')}
               </span>
               <div className="input-group ml-3 mb-4">
                 <input type="text" placeholder=" 0" required />

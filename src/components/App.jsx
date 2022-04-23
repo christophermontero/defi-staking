@@ -93,7 +93,15 @@ class App extends Component {
     let content;
 
     {
-      this.state.loading ? (content = <Loader />) : (content = <Main />);
+      this.state.loading
+        ? (content = <Loader />)
+        : (content = (
+            <Main
+              tetherBalance={this.state.tetherBalance}
+              rewardBalance={this.state.rewardBalance}
+              stakingBalance={this.state.stakingBalance}
+            />
+          ));
     }
 
     return (
