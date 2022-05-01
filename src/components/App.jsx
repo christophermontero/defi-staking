@@ -75,13 +75,42 @@ class App extends Component {
     this.setState({ loading: false });
   }
 
+  // Staking function
+  stakeTokens = amount => {
+    this.setState({ loading: true });
+
+    this.state.tether.methods
+      .approve(this.state.debank._address, amount)
+      .send({ from: this.state.account })
+      .on('transactionHash', hash => {
+        this.state.debank.methods
+          .depositTokens(amount)
+          .send({ from: this.state.account })
+          .on('transactionHash', hash => {
+            this.setState({ loading: false });
+          });
+      });
+  };
+
+  // Unstaking function
+  unstakeTokens = () => {
+    this.setState({ loading: true });
+
+    this.state.debank.methods
+      .unstakeTokens()
+      .send({ from: this.state.account })
+      .on('transactionHash', hash => {
+        this.setState({ loading: false });
+      });
+  };
+
   constructor(props) {
     super(props);
     this.state = {
       account: '0x0',
       tether: {},
       reward: {},
-      deBank: {},
+      debank: {},
       tetherBalance: 0,
       rewardBalance: 0,
       stakingBalance: 0,
@@ -100,6 +129,8 @@ class App extends Component {
               tetherBalance={this.state.tetherBalance}
               rewardBalance={this.state.rewardBalance}
               stakingBalance={this.state.stakingBalance}
+              stakeTokens={this.state.stakeTokens}
+              unstakeTokens={this.state.unstakeTokens}
             />
           ));
     }
