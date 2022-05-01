@@ -129,8 +129,8 @@ class App extends Component {
               tetherBalance={this.state.tetherBalance}
               rewardBalance={this.state.rewardBalance}
               stakingBalance={this.state.stakingBalance}
-              stakeTokens={this.state.stakeTokens}
-              unstakeTokens={this.state.unstakeTokens}
+              stakeTokens={this.stakeTokens}
+              unstakeTokens={this.unstakeTokens}
             />
           ));
     }

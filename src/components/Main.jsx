@@ -26,7 +26,19 @@ class Main extends Component {
           </tbody>
         </table>
         <div className="card mb-2 p-1" style={{ opacity: '0.9' }}>
-          <form className="mb-3">
+          <form
+            className="mb-3"
+            onSubmit={event => {
+              event.preventDefault();
+
+              let amount;
+              amount = this.input.value.toString();
+              console.log('amount:', amount);
+              amount = window.web3.utils.toWei(amount, 'Ether');
+
+              this.props.stakeTokens(amount);
+            }}
+          >
             <div style={{ borderSpacing: '0 1em' }}>
               <label className="float-left" style={{ marginLeft: '15px' }}>
                 <b>Stake tokens</b>
@@ -39,7 +51,14 @@ class Main extends Component {
                 {window.web3.utils.fromWei(this.props.tetherBalance, 'Ether')}
               </span>
               <div className="input-group ml-3 mb-4">
-                <input type="text" placeholder=" 0" required />
+                <input
+                  ref={input => {
+                    this.input = input;
+                  }}
+                  type="text"
+                  placeholder=" 0"
+                  required
+                />
                 <div className="input-group-open ml-2">
                   <div className="input-group-text">
                     <img src={tether} height="35px" alt="tether logo" />
