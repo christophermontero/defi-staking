@@ -28,7 +28,7 @@ class Main extends Component {
         <div className="card mb-2 p-1" style={{ opacity: '0.9' }}>
           <form
             className="mb-3"
-            onSubmit={event => {
+            onSubmit={(event) => {
               event.preventDefault();
 
               let amount;
@@ -52,7 +52,7 @@ class Main extends Component {
               </span>
               <div className="input-group ml-3 mb-4">
                 <input
-                  ref={input => {
+                  ref={(input) => {
                     this.input = input;
                   }}
                   type="text"
@@ -74,7 +74,17 @@ class Main extends Component {
               </button>
             </div>
           </form>
-          <button className="btn btn-primary btn-lg btn-block">Withdraw</button>
+          <button
+            type="submit"
+            onClick={(event) => {
+              event.preventDefault();
+
+              this.props.unstakeTokens();
+            }}
+            className="btn btn-primary btn-lg btn-block"
+          >
+            Withdraw
+          </button>
           <div className="card-body text-center" style={{ color: 'blue' }}>
             Airdrop
           </div>

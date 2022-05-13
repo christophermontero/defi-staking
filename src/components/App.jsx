@@ -76,18 +76,19 @@ class App extends Component {
   }
 
   // Staking function
-  stakeTokens = amount => {
+  stakeTokens = (amount) => {
     this.setState({ loading: true });
 
     this.state.tether.methods
       .approve(this.state.debank._address, amount)
       .send({ from: this.state.account })
-      .on('transactionHash', hash => {
+      .on('transactionHash', (hash) => {
         this.state.debank.methods
           .depositTokens(amount)
           .send({ from: this.state.account })
-          .on('transactionHash', hash => {
+          .on('transactionHash', (hash) => {
             this.setState({ loading: false });
+            window.location.reload(false);
           });
       });
   };
@@ -99,8 +100,9 @@ class App extends Component {
     this.state.debank.methods
       .unstakeTokens()
       .send({ from: this.state.account })
-      .on('transactionHash', hash => {
+      .on('transactionHash', (hash) => {
         this.setState({ loading: false });
+        window.location.reload(false);
       });
   };
 
