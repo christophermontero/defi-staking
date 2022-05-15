@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ParticlesSettings from './ParticleSettings';
 import Navbar from './Navbar';
 import Main from './Main';
 import Loader from './Loader';
@@ -138,7 +139,10 @@ class App extends Component {
     }
 
     return (
-      <div>
+      <div className="App" style={{ position: 'relative' }}>
+        <div style={{ position: 'absolute' }}>
+          <ParticlesSettings />
+        </div>
         <Navbar account={this.state.account} />
         <div className="container-fluid mt-5">
           <div className="row content">
