@@ -7,13 +7,13 @@ class Main extends Component {
       <div id="content" className="mt-3">
         <table className="table text-muted text-center">
           <thead>
-            <tr style={{ color: 'black' }}>
+            <tr style={{ color: 'white' }}>
               <th scope="col">Staking balance</th>
               <th scope="col">Reward balance</th>
             </tr>
           </thead>
           <tbody>
-            <tr style={{ color: 'black' }}>
+            <tr style={{ color: 'white' }}>
               <td>
                 {window.web3.utils.fromWei(this.props.stakingBalance, 'Ether')}{' '}
                 USDT
@@ -25,7 +25,7 @@ class Main extends Component {
             </tr>
           </tbody>
         </table>
-        <div className="card mb-2 p-1" style={{ opacity: '0.9' }}>
+        <div className="card mb-2 p-1" style={{ opacity: '0.75' }}>
           <form
             className="mb-3"
             onSubmit={(event) => {
