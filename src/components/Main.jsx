@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import tether from '../tether.png';
+import Airdrop from './Airdrop';
 
 class Main extends Component {
   render() {
@@ -86,7 +87,7 @@ class Main extends Component {
             Withdraw
           </button>
           <div className="card-body text-center" style={{ color: 'blue' }}>
-            Airdrop
+            Airdrop in <Airdrop />
           </div>
         </div>
       </div>

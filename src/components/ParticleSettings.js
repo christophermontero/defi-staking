@@ -64,7 +64,7 @@ class ParticleSettings extends Component {
                 enable: true,
                 outMode: 'bounce',
                 random: false,
-                speed: 3,
+                speed: 2,
                 straight: false
               },
               number: {

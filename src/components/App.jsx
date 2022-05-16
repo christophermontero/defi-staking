@@ -139,7 +139,7 @@ class App extends Component {
     }
 
     return (
-      <div className="App" style={{ position: 'relative' }}>
+      <div style={{ position: 'relative' }}>
         <div style={{ position: 'absolute' }}>
           <ParticlesSettings />
         </div>
