@@ -8,7 +8,7 @@ class Airdrop extends Component {
       seconds: 20
     };
     this.timer = 0;
-    this.startTime = this.startTime.bind(this);
+    this.startTimer = this.startTimer.bind(this);
     this.counterDown = this.counterDown.bind(this);
   }
 
@@ -29,6 +29,25 @@ class Airdrop extends Component {
     };
   }
 
+  startTimer() {
+    if (this.timer == 0) {
+      this.timer = setInterval(this.counterDown, 1000);
+    }
+  }
+
+  counterDown() {
+    let seconds = this.state.seconds - 1;
+
+    this.setState({
+      time: this.secondsToTime(seconds),
+      seconds
+    });
+
+    if (seconds == 0) {
+      clearInterval(this.timer);
+    }
+  }
+
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
@@ -37,7 +56,18 @@ class Airdrop extends Component {
   render() {
     return (
       <div style={{ color: 'black' }}>
-        {this.state.time.minutes}:{this.state.time.seconds}
+        {this.state.seconds <= 3 ? (
+          <div
+            style={{ color: 'red', fontSize: '1.5rem', fontWeight: 'bolder' }}
+          >
+            {this.state.time.minutes}:{this.state.time.seconds}
+          </div>
+        ) : (
+          <div>
+            {this.state.time.minutes}:{this.state.time.seconds}
+          </div>
+        )}
+        {this.startTimer()}
       </div>
     );
   }
