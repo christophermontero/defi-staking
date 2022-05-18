@@ -19,8 +19,7 @@ class Airdrop extends Component {
     let devisorForMin = secs % (60 * 60);
     minutes = Math.floor(devisorForMin / 60);
 
-    let devisorForSec = secs % 60;
-    seconds = Math.ceil(devisorForSec);
+    seconds = secs % 60;
 
     return {
       hours,
@@ -30,7 +29,7 @@ class Airdrop extends Component {
   }
 
   startTimer() {
-    if (this.timer == 0) {
+    if (this.timer == 0 && this.state.seconds > 0) {
       this.timer = setInterval(this.counterDown, 1000);
     }
   }
@@ -48,14 +47,24 @@ class Airdrop extends Component {
     }
   }
 
+  async airdropReleaseTokens() {
+    let stakingBal = this.props.stakingBalance;
+    if (stakingBal >= '50000000000000000000') {
+      this.startTimer();
+    }
+  }
+
   componentDidMount() {
     let timeLeftVar = this.secondsToTime(this.state.seconds);
     this.setState({ time: timeLeftVar });
   }
 
   render() {
+    {
+      this.airdropReleaseTokens();
+    }
     return (
-      <div style={{ color: 'black' }}>
+      <div>
         {this.state.seconds <= 3 ? (
           <div
             style={{ color: 'red', fontSize: '1.5rem', fontWeight: 'bolder' }}
@@ -63,11 +72,10 @@ class Airdrop extends Component {
             {this.state.time.minutes}:{this.state.time.seconds}
           </div>
         ) : (
-          <div>
+          <div style={{ color: 'black' }}>
             {this.state.time.minutes}:{this.state.time.seconds}
           </div>
         )}
-        {this.startTimer()}
       </div>
     );
   }
