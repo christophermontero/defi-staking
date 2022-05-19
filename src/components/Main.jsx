@@ -34,7 +34,6 @@ class Main extends Component {
 
               let amount;
               amount = this.input.value.toString();
-              console.log('amount:', amount);
               amount = window.web3.utils.toWei(amount, 'Ether');
 
               this.props.stakeTokens(amount);
@@ -87,7 +86,11 @@ class Main extends Component {
             Withdraw
           </button>
           <div className="card-body text-center" style={{ color: 'blue' }}>
-            Airdrop in <Airdrop stakingBalance={this.props.stakingBalance} />
+            Airdrop in{' '}
+            <Airdrop
+              stakingBalance={this.props.stakingBalance}
+              issueReward={this.props.issueReward}
+            />
           </div>
         </div>
       </div>

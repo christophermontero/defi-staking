@@ -9,6 +9,20 @@ import Reward from '../truffle-abis/Reward.json';
 import DeBank from '../truffle-abis/DeBank.json';
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      account: '0x0',
+      tether: {},
+      reward: {},
+      debank: {},
+      tetherBalance: 0,
+      rewardBalance: 0,
+      stakingBalance: 0,
+      loading: true
+    };
+  }
+
   async UNSAFE_componentWillMount() {
     await this.loadedWeb3();
     await this.loadBlockchainData();
@@ -107,19 +121,15 @@ class App extends Component {
       });
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      account: '0x0',
-      tether: {},
-      reward: {},
-      debank: {},
-      tetherBalance: 0,
-      rewardBalance: 0,
-      stakingBalance: 0,
-      loading: true
-    };
-  }
+  // Release reward
+  issueReward = () => {
+    this.state.debank.methods
+      .issueTokens()
+      .send({ from: process.env.OWNER_ADDRESS })
+      .on('transactionHash', (hash) => {
+        window.location.reload(false);
+      });
+  };
 
   render() {
     let content;
@@ -134,6 +144,7 @@ class App extends Component {
               stakingBalance={this.state.stakingBalance}
               stakeTokens={this.stakeTokens}
               unstakeTokens={this.unstakeTokens}
+              issueReward={this.issueReward}
             />
           ));
     }
