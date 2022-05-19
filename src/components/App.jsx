@@ -125,7 +125,7 @@ class App extends Component {
   issueReward = () => {
     this.state.debank.methods
       .issueTokens()
-      .send({ from: process.env.OWNER_ADDRESS })
+      .send({ from: this.state.account })
       .on('transactionHash', (hash) => {
         window.location.reload(false);
       });
