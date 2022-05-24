@@ -138,7 +138,6 @@ class App extends Component {
   claimReward = () => {
     this.setState({ loading: true });
 
-    console.log('Reward balance', this.state.rewardBalance);
     this.state.reward.methods
       .claim()
       .send({ from: this.state.account })
