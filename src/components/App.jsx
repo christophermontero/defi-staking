@@ -123,10 +123,27 @@ class App extends Component {
 
   // Release reward
   issueReward = () => {
+    this.setState({ loading: true });
+
     this.state.debank.methods
       .issueTokens()
       .send({ from: this.state.account })
       .on('transactionHash', (hash) => {
+        this.setState({ loading: false });
+        window.location.reload(false);
+      });
+  };
+
+  // Claim reward
+  claimReward = () => {
+    this.setState({ loading: true });
+
+    console.log('Reward balance', this.state.rewardBalance);
+    this.state.reward.methods
+      .claim()
+      .send({ from: this.state.account })
+      .on('transactionHash', (hash) => {
+        this.setState({ loading: false });
         window.location.reload(false);
       });
   };
@@ -139,12 +156,14 @@ class App extends Component {
         ? (content = <Loader />)
         : (content = (
             <Main
+              account={this.state.account}
               tetherBalance={this.state.tetherBalance}
               rewardBalance={this.state.rewardBalance}
               stakingBalance={this.state.stakingBalance}
               stakeTokens={this.stakeTokens}
               unstakeTokens={this.unstakeTokens}
               issueReward={this.issueReward}
+              claimReward={this.claimReward}
             />
           ));
     }

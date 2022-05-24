@@ -5,7 +5,7 @@ class Airdrop extends Component {
     super(props);
     this.state = {
       time: {},
-      seconds: 5
+      seconds: 15
     };
     this.timer = 0;
     this.startTimer = this.startTimer.bind(this);
@@ -51,7 +51,10 @@ class Airdrop extends Component {
     let stakingBal = this.props.stakingBalance;
     if (stakingBal >= '50000000000000000000') {
       this.startTimer();
-      if (this.state.seconds === 0) {
+      if (
+        this.state.seconds === 0 &&
+        this.props.account == process.env.REACT_APP_OWNER_ADDRESS
+      ) {
         this.props.issueReward();
       }
     }
@@ -67,19 +70,40 @@ class Airdrop extends Component {
       this.airdropReleaseTokens();
     }
     return (
-      <div>
-        {this.state.seconds <= 3 ? (
-          <div
-            style={{ color: 'red', fontSize: '1.5rem', fontWeight: 'bolder' }}
-          >
-            {this.state.time.minutes}:{this.state.time.seconds}
-          </div>
-        ) : (
-          <div style={{ color: 'black' }}>
-            {this.state.time.minutes}:{this.state.time.seconds}
-          </div>
-        )}
-      </div>
+      <>
+        <div>
+          {this.state.seconds <= 3 ? (
+            <div
+              style={{
+                color: 'red',
+                fontSize: '1.5rem',
+                fontWeight: 'bolder'
+              }}
+            >
+              {this.state.time.minutes}:{this.state.time.seconds}
+            </div>
+          ) : (
+            <div style={{ color: 'black' }}>
+              {this.state.time.minutes}:{this.state.time.seconds}
+            </div>
+          )}
+        </div>
+        <div>
+          {this.props.rewardBalance !== '0' && (
+            <button
+              style={{ color: 'black' }}
+              onClick={(event) => {
+                event.preventDefault();
+
+                this.props.claimReward();
+              }}
+              className="btn btn-warning mt-2"
+            >
+              Claim your reward!
+            </button>
+          )}
+        </div>
+      </>
     );
   }
 }

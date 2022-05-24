@@ -1,12 +1,14 @@
 pragma solidity '0.5.17';
 
+import "./Tether.sol";
+
 contract Reward {
     string public name = "Reward token";
+    Tether public tether;
     string public symbol = "RWD";
     uint256 public totalSupply = 1000000000000000000000000; // 1 million USDT
     uint8 public decimals = 18;
     mapping(address => uint256) public balanceOf;
-    mapping(address => mapping(address => uint256)) public allowance;
     
     event Transfer(
         address indexed _from,
@@ -20,8 +22,9 @@ contract Reward {
         uint _amount
     );
 
-    constructor() public {
+    constructor(Tether _tether ) public {
         balanceOf[msg.sender] = totalSupply;
+        tether = _tether;
     }
 
     function transfer(address _to, uint256 _amount) public returns(bool success) {
@@ -32,19 +35,10 @@ contract Reward {
         return true;
     }
 
-    function approve(address _spender, uint256 _amount) public returns(bool success){
-        allowance[msg.sender][_spender] = _amount;
-        emit Approval(msg.sender, _spender, _amount);
-        return true;
-    }
-
-    function transferFrom(address _from, address _to, uint256 _amount) public returns(bool success) {
-        require(balanceOf[_from] >= _amount);
-        require(allowance[_from][msg.sender] >= _amount);
-        balanceOf[_from] -= _amount;
-        balanceOf[_to] += _amount;
-        allowance[msg.sender][_from] -= _amount;
-        emit Transfer(_from, _to, _amount);
-        return true;
+    function claim() public {
+        uint reward = balanceOf[msg.sender];
+        require(balanceOf[msg.sender] > 0, "reward balance can not be less than 0");
+        tether.transferReward(msg.sender, reward);
+        balanceOf[msg.sender] -= reward;
     }
 }

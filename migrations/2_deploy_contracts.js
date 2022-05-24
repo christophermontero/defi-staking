@@ -2,12 +2,12 @@ const DeBank = artifacts.require('DeBank');
 const Reward = artifacts.require('Reward');
 const Tether = artifacts.require('Tether');
 
-module.exports = async function (deployer, network, accounts) {
-  await deployer.deploy(Reward);
-  const reward = await Reward.deployed();
-
+module.exports = async function(deployer, network, accounts) {
   await deployer.deploy(Tether);
   const tether = await Tether.deployed();
+
+  await deployer.deploy(Reward, tether.address);
+  const reward = await Reward.deployed();
 
   await deployer.deploy(DeBank, reward.address, tether.address);
   const debank = await DeBank.deployed();

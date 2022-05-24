@@ -86,10 +86,13 @@ class Main extends Component {
             Withdraw
           </button>
           <div className="card-body text-center" style={{ color: 'blue' }}>
-            Airdrop in{' '}
+            Airdrop{' '}
             <Airdrop
+              account={this.props.account}
               stakingBalance={this.props.stakingBalance}
               issueReward={this.props.issueReward}
+              rewardBalance={this.props.rewardBalance}
+              claimReward={this.props.claimReward}
             />
           </div>
         </div>
